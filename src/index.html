@@ -1,0 +1,20 @@
+<html>
+<head>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />
+</head>
+<body>
+<div id="app">
+    <h1>Hello, {{title}}!</h1>
+
+</div>
+<div id='map' style='width: 400px; height: 300px;'></div>
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZGV3aGl0ZTQiLCJhIjoiY2ptbGEwbnM0MDY1eTNranA2ZzRyNTZpNCJ9.SG5SDNQVszwn4QmrYmo9MQ';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v9'
+    });
+</script>
+</body>
+</html>
