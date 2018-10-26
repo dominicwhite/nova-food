@@ -5,11 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "webpack-dev-server --mode=development"
+    "serve": "webpack-dev-server --mode=development --env.MAPBOX=`cat mapbox_key`"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "mapbox-gl-vue": "^1.9.0",
     "vue": "^2.5.17"
   },
   "devDependencies": {
