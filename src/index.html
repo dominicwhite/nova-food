@@ -16,8 +16,8 @@
             v-bind:access-token="mapboxKey"
             :map-options="{
   style: 'mapbox://styles/mapbox/light-v9',
-  center: [-96, 37.8],
-  zoom: 3
+  center: [-77.088544, 38.864728],
+  zoom: 11
 }"
             :geolocate-control="{
   show: true,
@@ -30,7 +30,9 @@
             :fullscreen-control="{
   show: true,
   position: 'top-left'
-}">
+}"
+            @map-load="drawRestaurants"
+            @restaurants-updated="drawRestaurants">
     </mapbox>
 </div>
 
