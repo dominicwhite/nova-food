@@ -1,39 +1,16 @@
 <html>
 <head>
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />
+    <link href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" rel="stylesheet" />
     <style>
         #map {
-            width: 100%;
-            height: 500px;
+            height: 600px;
         }
     </style>
 </head>
 <body>
 <div id="app">
-    <h1>Hello, {{title}}!</h1>
-    <mapbox
-            v-bind:access-token="mapboxKey"
-            :map-options="{
-  style: 'mapbox://styles/mapbox/light-v9',
-  center: [-77.088544, 38.864728],
-  zoom: 11
-}"
-            :geolocate-control="{
-  show: true,
-  position: 'top-left'
-}"
-            :scale-control="{
-  show: true,
-  position: 'top-left'
-}"
-            :fullscreen-control="{
-  show: true,
-  position: 'top-left'
-}"
-            @map-load="drawRestaurants"
-            @restaurants-updated="drawRestaurants">
-    </mapbox>
+    <h1>{{title}}</h1>
+    <div id="map" class="map"></div>
 </div>
 
 </body>

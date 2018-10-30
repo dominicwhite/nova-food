@@ -12,9 +12,6 @@ module.exports = env => {
             new webpack.HotModuleReplacementPlugin(),
             new HtmlWebpackPlugin({
                 template: './src/index.html',
-            }),
-            new webpack.DefinePlugin({
-                __MAPBOX_KEY__: JSON.stringify(env.MAPBOX)
             })
         ],
         resolve: {

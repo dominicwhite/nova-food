@@ -1,54 +1,62 @@
 import Vue from 'vue';
-import Mapbox from 'mapbox-gl-vue';
+import L from 'leaflet';
 import {APIHelper} from './APIHelper';
 
 const app = new Vue({
     el: '#app',
     data: {
         title: 'NoVaEats',
-        mapboxKey: __MAPBOX_KEY__,
-        isDataLoaded: false,
-        restaurantsGeojson: {}
+        map: null,
+        tileLayer: null,
+        restaurantsJSON: []
     },
     components: {
-        Mapbox
     },
-    mounted: function() {
-        let geojsonData = {'type': 'FeatureCollection'};
-        APIHelper.loadTestData().then( json => {
-            geojsonData.features = json.restaurants.map(function (restaurant) {
-                return {
-                    'type': 'Feature',
-                    'geometry': {
-                        'type': 'Point',
-                        'coordinates': [restaurant.long, restaurant.lat]
-                    },
-                    'properties': {
-                        'title': restaurant.name,
-                        'icon': 'restaurant'
-                    }
-                }
-            });
-            this.restaurantsGeojson = geojsonData;
-            this.$emit('restaurants-updated');
+    computed: {
+        layers: function() {
+            return [
+                {
+                    id: 0,
+                    name: 'Restaurants',
+                    active: false,
+                    features: this.restaurantsJSON,
+                },
+            ];
+        }
+    },
+    mounted() {
+        this.initMap();
+        APIHelper.loadTestData().then( r => {
+            console.log(r);
+            this.restaurantsJSON = r.restaurants;
+            console.log(this.restaurantsJSON);
+            this.initLayers();
         });
     },
     methods: {
-        drawRestaurants(map) {
-            map.addLayer({
-                'id': 'points',
-                'type': 'symbol',
-                'source': {
-                    'type': 'geojson',
-                    'data': this.restaurantsGeojson
-                },
-                'layout': {
-                    'icon-image': '{icon}-15',
-                    'text-field': '{title}',
-                    'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
-                    'text-offset': [0, 0.6],
-                    'text-anchor': 'top'
+        initMap() {
+            this.map = L.map('map').setView([38.864728, -77.088544], 13);
+            this.tileLayer = L.tileLayer(
+                'https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager/{z}/{x}/{y}.png',
+                {
+                    maxZoom: 18,
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>',
                 }
+            );
+            this.tileLayer.addTo(this.map);
+        },
+        initLayers() {
+            console.log('creating layer');
+            console.log(this.layers);
+            this.layers.forEach((layer) => {
+                console.log(layer);
+                // const markerFeatures = layer.features.filter(feature => feature.type === 'marker');
+                layer.features.forEach((feature) => {
+                    console.log(feature);
+                    feature.leafletObject = L.marker([feature.lat, feature.long])
+                        .bindPopup(feature.name)
+                        .addTo(this.map);
+                });
             });
         }
     }
