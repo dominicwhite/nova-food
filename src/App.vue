@@ -1,14 +1,30 @@
 <template>
     <v-app>
+
         <v-toolbar color="indigo" dark fixed app>
-            <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+            <!--<v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>-->
             <v-toolbar-title>{{title}}</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-text-field
+                    prepend-inner-icon="search"
+                    label="Search"
+                    solo-inverted
+                    class="ml-4 my-2"
+                    flat
+            ></v-text-field>
         </v-toolbar>
         <v-content>
             <v-container fluid fill-height>
-                <div id="map" class="map"></div>
+                <v-layout>
+                    <div id="map" class="map"></div>
+                </v-layout>
             </v-container>
         </v-content>
+        <!--<v-toolbar-->
+                <!--dense-->
+                <!--floating-->
+        <!--&gt;Hello</v-toolbar>-->
+        <!--<v-content></v-content>-->
     </v-app>
 </template>
 
@@ -79,11 +95,21 @@
 </script>
 
 <style scoped>
-    #map {
-        height: 500px;
-        margin-top: 70px;
+    body {
+        margin: 0;
+        padding: 0
     }
     nav {
         z-index: 1000;
+    }
+    .container {
+        padding-left: 0!important;
+        padding-right: 0!important;
+        padding-top: 0!important;
+     }
+    #map {
+        /*height: 100%;*/
+        width: 100%;
+        /*margin-top: 60px;*/
     }
 </style>
