@@ -14,7 +14,7 @@
             ></v-text-field>
         </v-toolbar>
         <v-content>
-            <v-container fluid fill-height>
+            <v-container>
                 <v-layout>
                     <div id="map" class="map"></div>
                 </v-layout>
@@ -108,7 +108,7 @@
         padding-top: 0!important;
      }
     #map {
-        /*height: 100%;*/
+        height: 90%;
         width: 100%;
         /*margin-top: 60px;*/
     }
