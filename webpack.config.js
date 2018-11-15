@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
 
 module.exports = env => {
     return {
@@ -15,12 +16,8 @@ module.exports = env => {
                 template: './src/index.html',
             }),
             new VueLoaderPlugin(),
+            new VuetifyLoaderPlugin(),
         ],
-        // resolve: {
-        //     alias: {
-        //         vue: 'vue/dist/vue.js'
-        //     }
-        // },
         module: {
             rules: [
                 {
@@ -40,18 +37,7 @@ module.exports = env => {
                     exclude: /node_modules/,
                     use: {
                         loader: 'babel-loader',
-                        query: {
-                            plugins: [
-                                [require('babel-plugin-transform-imports'), {
-                                    'vuetify': {
-                                        transform: function(importName, matches){
-                                            return 'vuetify/es5/components/' + importName.toUpperCase();
-                                        },
-                                        preventFullImport: true
-                                    }
-                                }]
-                            ]
-                        }
+
                     }
                 }
             ]

@@ -4,7 +4,8 @@
   "description": "Restaurant cleanliness",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "export NODE_ENV=testing && jest",
+    "test::unit": "export NODE_ENV=testing && jest --watch",
     "serve": "webpack-dev-server --mode=development"
   },
   "author": "",
@@ -58,6 +59,7 @@
     },
     "transformIgnorePatterns": [
       "<rootDir>/node_modules/(?!(@storybook/.*\\.vue$))"
-    ]
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/tests/jest-setup.js"
   }
 }
