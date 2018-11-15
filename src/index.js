@@ -27,8 +27,3 @@ new Vue({
     el: '#app',
     render: h => h(App)
 });
-
-// const app = new Vue({
-//     el: '#app',
-//     }
-// });
