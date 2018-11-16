@@ -12,29 +12,32 @@
             ></v-text-field>
         </v-toolbar>
         <v-content>
-            <v-container>
+            <v-container fluid>
                 <v-layout>
-                    <div id="map" class="map"></div>
+                    <leaflet-map ref="map" :layers="layers"></leaflet-map>
                 </v-layout>
             </v-container>
         </v-content>
+        <v-bottom-sheet v-model="sheet">
+            <div>Some stuff</div>
+        </v-bottom-sheet>
     </v-app>
 </template>
 
 <script>
-    import L from 'leaflet';
     import {APIHelper} from './APIHelper';
+    import LeafletMap from './components/LeafletMap.vue';
+
     export default {
         name: "App",
         data: function(){
             return {
                 title: 'NoVaEats',
-                map: null,
-                tileLayer: null,
-                restaurantsJSON: []
+                restaurantsJSON: [],
+                sheet: false
             }
         },
-        components: {},
+        components: { 'leaflet-map': LeafletMap },
         computed: {
             layers: function () {
                 return [
@@ -48,39 +51,14 @@
             }
         },
         mounted() {
-            this.initMap();
             APIHelper.loadTestData().then(r => {
-                console.log(r);
+                console.log('Loaded from API:', r);
                 this.restaurantsJSON = r.restaurants;
-                console.log(this.restaurantsJSON);
-                this.initLayers();
+                console.log('Stored in restaurantsJSON:', this.restaurantsJSON);
+                // this.$refs.map.initLayers();
             });
         },
         methods: {
-            initMap() {
-                this.map = L.map('map').setView([38.864728, -77.088544], 13);
-                this.tileLayer = L.tileLayer(
-                    'https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager/{z}/{x}/{y}.png',
-                    {
-                        maxZoom: 18,
-                        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>',
-                    }
-                );
-                this.tileLayer.addTo(this.map);
-            },
-            initLayers() {
-                console.log('creating layer');
-                console.log(this.layers);
-                this.layers.forEach((layer) => {
-                    console.log(layer);
-                    layer.features.forEach((feature) => {
-                        console.log(feature);
-                        feature.leafletObject = L.marker([feature.lat, feature.long])
-                            .bindPopup(feature.name)
-                            .addTo(this.map);
-                    });
-                });
-            }
         }
     }
 </script>
@@ -94,13 +72,12 @@
         z-index: 1000;
     }
     .container {
-        padding-left: 0!important;
-        padding-right: 0!important;
-        padding-top: 0!important;
+        padding: 0;
+        width: 100%;
+        margin: 0;
     }
     #map {
         height: 90%;
         width: 100%;
-        /*margin-top: 60px;*/
     }
 </style>
