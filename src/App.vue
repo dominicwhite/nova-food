@@ -14,7 +14,7 @@
         <v-content>
             <v-container fluid>
                 <v-layout>
-                    <leaflet-map ref="map" :layers="layers"></leaflet-map>
+                    <leaflet-map ref="map" :restaurants="restaurantsJSON"></leaflet-map>
                 </v-layout>
             </v-container>
         </v-content>
@@ -38,27 +38,10 @@
             }
         },
         components: { 'leaflet-map': LeafletMap },
-        computed: {
-            layers: function () {
-                return [
-                    {
-                        id: 0,
-                        name: 'Restaurants',
-                        active: false,
-                        features: this.restaurantsJSON,
-                    },
-                ];
-            }
-        },
         mounted() {
             APIHelper.loadTestData().then(r => {
-                console.log('Loaded from API:', r);
                 this.restaurantsJSON = r.restaurants;
-                console.log('Stored in restaurantsJSON:', this.restaurantsJSON);
-                // this.$refs.map.initLayers();
             });
-        },
-        methods: {
         }
     }
 </script>

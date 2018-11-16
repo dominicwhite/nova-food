@@ -6,12 +6,24 @@
     import L from 'leaflet';
     export default {
         name: "LeafletMap",
-        props: ['layers'],
+        props: ['restaurants'],
         data: function(){
             return {
                 map: null,
                 tileLayer: null,
             };
+        },
+        computed: {
+            layers: function () {
+                return [
+                    {
+                        id: 0,
+                        name: 'Restaurants',
+                        active: false,
+                        features: this.restaurants,
+                    },
+                ];
+            }
         },
         mounted: function () {
             this.map = L.map('map').setView([38.864728, -77.088544], 13);
@@ -26,27 +38,8 @@
         },
         watch: {
             layers: function() {
-                console.log('creating layer');
-                console.log('Starting data:', this.layers);
                 this.layers.forEach((layer) => {
-                    console.log('Working on layer:', layer);
                     layer.features.forEach((feature) => {
-                        console.log(feature);
-                        feature.leafletObject = L.marker([feature.lat, feature.long])
-                            .bindPopup(feature.name)
-                            .addTo(this.map);
-                    });
-                });
-            }
-        },
-        methods: {
-            initLayers() {
-                console.log('creating layer');
-                console.log(this.layers);
-                this.layers.forEach((layer) => {
-                    console.log(layer);
-                    layer.features.forEach((feature) => {
-                        console.log(feature);
                         feature.leafletObject = L.marker([feature.lat, feature.long])
                             .bindPopup(feature.name)
                             .addTo(this.map);
