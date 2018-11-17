@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = env => {
     return {
@@ -17,6 +18,9 @@ module.exports = env => {
             }),
             new VueLoaderPlugin(),
             new VuetifyLoaderPlugin(),
+            new CopyWebpackPlugin([
+                {from:'public'}
+            ]),
         ],
         module: {
             rules: [
