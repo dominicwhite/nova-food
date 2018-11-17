@@ -51,5 +51,7 @@
 </script>
 
 <style scoped>
-
+    #map {
+        z-index: 100;
+    }
 </style>

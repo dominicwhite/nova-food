@@ -18,26 +18,27 @@
                 </v-layout>
             </v-container>
         </v-content>
-        <v-bottom-sheet v-model="sheet">
-            <div>Some stuff</div>
-        </v-bottom-sheet>
+        <bottom-container :restaurants="restaurantsJSON"></bottom-container>
     </v-app>
 </template>
 
 <script>
     import {APIHelper} from './APIHelper';
     import LeafletMap from './components/LeafletMap.vue';
+    import BottomContainer from './components/BottomContainer.vue';
 
     export default {
         name: "App",
         data: function(){
             return {
                 title: 'NoVaEats',
-                restaurantsJSON: [],
-                sheet: false
+                restaurantsJSON: []
             }
         },
-        components: { 'leaflet-map': LeafletMap },
+        components: {
+            'leaflet-map': LeafletMap,
+            'bottom-container': BottomContainer
+        },
         mounted() {
             APIHelper.loadTestData().then(r => {
                 this.restaurantsJSON = r.restaurants;
@@ -60,7 +61,7 @@
         margin: 0;
     }
     #map {
-        height: 90%;
+        height: 85%;
         width: 100%;
     }
 </style>
