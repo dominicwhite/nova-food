@@ -6,7 +6,8 @@
   "scripts": {
     "test": "export NODE_ENV=testing && jest",
     "test::unit": "export NODE_ENV=testing && jest --watch",
-    "serve": "webpack-dev-server --mode=development"
+    "serve": "webpack-dev-server --mode=development",
+    "build": "webpack"
   },
   "author": "",
   "license": "MIT",
