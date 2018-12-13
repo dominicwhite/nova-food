@@ -42,7 +42,11 @@
                     layer.features.forEach((feature) => {
                         feature.leafletObject = L.marker([feature.lat, feature.long])
                             .bindPopup(feature.name)
-                            .addTo(this.map);
+                            .addTo(this.map)
+                            .on('click', (e) => {
+                                console.log('You clicked on', feature);
+                                this.$emit('restaurant-click', feature.id);
+                            });
                     });
                 });
             }
