@@ -25,6 +25,16 @@
                 ];
             }
         },
+        methods: {
+            updateLocation: function() {
+                if ('geolocation' in navigator){
+                    navigator.geolocation.getCurrentPosition((pos) => {
+                        const coords = pos.coords;
+                        this.map.flyTo([coords.latitude, coords.longitude], 14);
+                    })
+                }
+            }
+        },
         mounted: function () {
             this.map = L.map('map').setView([38.864720, -77.088544], 12);
             this.tileLayer = L.tileLayer(
@@ -35,6 +45,7 @@
                 }
             );
             this.tileLayer.addTo(this.map);
+            this.updateLocation();
         },
         watch: {
             layers: function() {
