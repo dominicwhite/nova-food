@@ -14,7 +14,7 @@
         <v-content>
             <v-container fluid>
                 <v-layout>
-                    <leaflet-map ref="map" :restaurants="restaurantsJSON"></leaflet-map>
+                    <leaflet-map ref="map" :restaurants="restaurantsJSON" v-on:mapViewChange="updateViewData"></leaflet-map>
                 </v-layout>
             </v-container>
         </v-content>
@@ -40,9 +40,23 @@
             'bottom-container': BottomContainer
         },
         mounted() {
-            APIHelper.loadTestData().then(r => {
-                this.restaurantsJSON = r.restaurants;
-            });
+            this.fetchRestaurants();
+        },
+        methods: {
+            fetchRestaurants: function(coords, zoom){
+                if (coords && zoom) {
+                    APIHelper.loadRestaurantsByLocation(coords.lat, coords.lng).then(r => {
+                        this.restaurantsJSON = r.restaurants;
+                    });
+                } else {
+                    APIHelper.loadRestaurantsByLocation().then(r => {
+                        this.restaurantsJSON = r.restaurants;
+                    });
+                }
+            },
+            updateViewData(eventData){
+                this.fetchRestaurants(eventData.center, eventData.zoom)
+            }
         }
     }
 </script>

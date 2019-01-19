@@ -46,6 +46,9 @@
             );
             this.tileLayer.addTo(this.map);
             this.updateLocation();
+            this.map.on('moveend', () => {
+                this.$emit('mapViewChange', {center: this.map.getCenter(), zoom: this.map.getZoom()});
+            });
         },
         watch: {
             layers: function() {
