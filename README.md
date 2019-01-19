@@ -37,3 +37,21 @@ npm run serve
 
 ```
 
+##ToDo list
+
+**Map features**
+* Better handling of restaurant updates on map move -> Google-like "search this area" option?
+* Better handling of old locations on map move (should they be removed from map?)
+* Better handling of multiple locations resolving to same coordinates (pins display on top of each other).
+* Display user location.
+
+**Basic app functionality**
+* Display health inspection reviews upon selection of a restaurant
+* Implement toggle for filtering by by distance vs. recency
+* Display measure of "goodness" of a restaurant based upon its recent inspections
+    * Calculate said "goodness" -> # of violations? Severity? Historical probability of restaurant closure vs inspections prior to closure?
+* Information about what each health violation code means
+
+**"Distant future" wishlist**
+* PWA
+* Search
