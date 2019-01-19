@@ -30,7 +30,7 @@
                 if ('geolocation' in navigator){
                     navigator.geolocation.getCurrentPosition((pos) => {
                         const coords = pos.coords;
-                        this.map.flyTo([coords.latitude, coords.longitude], 14);
+                        // this.map.flyTo([coords.latitude, coords.longitude], 14);
                     })
                 }
             }
