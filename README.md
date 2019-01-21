@@ -55,4 +55,6 @@ npm run serve
 
 **"Distant future" wishlist**
 * PWA
+    * Cache restaurant API data.
+    * Cache map tiles.
 * Search
