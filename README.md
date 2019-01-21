@@ -30,11 +30,12 @@ To build the site for production, run:
 
 ```bash
 npm run build
+```
 
-## The build can be tested on a local server with:
+The build can be tested on a local server with:
 
+```bash
 npm run serve
-
 ```
 
 ##ToDo list
