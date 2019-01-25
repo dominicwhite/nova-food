@@ -55,7 +55,7 @@ export default new Vuex.Store({
     actions: {
         fetchRestaurants: function({commit, state}, {radius: radius, filter: filter} = {filter:"distance", radius:0.5})
         {
-            let restaurants = fetch(`http://127.0.0.1:5000/restaurants/?filter=${filter}&radius=${radius}&lat=${state.mapCenter.lat}&long=${state.mapCenter.long}`)
+            let restaurants = fetch(`${process.env.apiEndpoint}/restaurants/?filter=${filter}&radius=${radius}&lat=${state.mapCenter.lat}&long=${state.mapCenter.long}`)
                 .then(r => r.json())
                 .then(rj => {
                     console.log(rj);

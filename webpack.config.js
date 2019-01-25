@@ -5,6 +5,11 @@ const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = env => {
+    let apiSetup = (env => {
+        if (env.prod) return 'https://http://novafoodapi.hyperninja.net';
+        else return 'http://127.0.0.1:5000';
+    })(env);
+    console.log(`Backend API is: ${apiSetup}`);
     return {
         devServer: {
             publicPath: "/",
@@ -21,6 +26,7 @@ module.exports = env => {
             new CopyWebpackPlugin([
                 {from:'public'}
             ]),
+            new webpack.DefinePlugin({'process.env.apiEndpoint': JSON.stringify(apiSetup)}),
         ],
         module: {
             rules: [

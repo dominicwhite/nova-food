@@ -6,8 +6,8 @@
   "scripts": {
     "test": "export NODE_ENV=testing && jest",
     "test::unit": "export NODE_ENV=testing && jest --watch",
-    "devserver": "webpack-dev-server --mode=development",
-    "build": "webpack --mode=production",
+    "devserver": "webpack-dev-server --env.dev --mode=development",
+    "build": "webpack --env.prod --mode=production",
     "serve": "npx http-server dist"
   },
   "author": "",
