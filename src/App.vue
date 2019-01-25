@@ -14,16 +14,27 @@
         <v-content>
             <v-container fluid>
                 <v-layout>
-                    <leaflet-map ref="map" :restaurants="restaurantsJSON" v-on:mapViewChange="updateViewData"></leaflet-map>
+                    <leaflet-map ref="map" v-on:mapMove="refreshRestaurantsSnackbar = true"></leaflet-map>
+
+                    <v-snackbar
+                        v-model="refreshRestaurantsSnackbar"
+                        :absolute="true"
+                        :top="true"
+                        :timeout="0"
+                        @click="refreshRestaurants()"
+                    >
+                        <v-btn flat>
+                            Update restaurants
+                        </v-btn>
+                    </v-snackbar>
                 </v-layout>
             </v-container>
         </v-content>
-        <bottom-container :restaurants="restaurantsJSON"></bottom-container>
+        <!--<bottom-container :restaurants="restaurantsJSON"></bottom-container>-->
     </v-app>
 </template>
 
 <script>
-    import {APIHelper} from './APIHelper';
     import LeafletMap from './components/LeafletMap.vue';
     import BottomContainer from './components/BottomContainer.vue';
 
@@ -32,30 +43,28 @@
         data: function(){
             return {
                 title: 'NoVaEats',
-                restaurantsJSON: []
+                refreshRestaurantsSnackbar: false
             }
         },
         components: {
             'leaflet-map': LeafletMap,
             'bottom-container': BottomContainer
         },
+        computed: {
+            // ...mapGetters(['allRestaurants'])
+        },
         mounted() {
-            this.fetchRestaurants();
+            this.$store.dispatch('fetchRestaurants');
         },
         methods: {
-            fetchRestaurants: function(coords, zoom){
-                if (coords && zoom) {
-                    APIHelper.loadRestaurantsByLocation(coords.lat, coords.lng).then(r => {
-                        this.restaurantsJSON = r.restaurants;
-                    });
-                } else {
-                    APIHelper.loadRestaurantsByLocation().then(r => {
-                        this.restaurantsJSON = r.restaurants;
-                    });
-                }
+            refreshRestaurants: function(){
+                console.log("doing refreshRestaurants() function");
+                this.refreshRestaurantsSnackbar = false;
+                this.$store.dispatch('fetchRestaurants');
             },
-            updateViewData(eventData){
-                this.fetchRestaurants(eventData.center, eventData.zoom)
+            handleMapMove(){
+                console.log("starting handleMapChange handler function");
+                this.refreshRestaurantsSnackbar = true;
             }
         }
     }

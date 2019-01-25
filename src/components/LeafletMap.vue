@@ -1,39 +1,37 @@
 <template>
-    <div id="map" class="map"></div>
+    <div id="map" class="map">
+
+    </div>
+
 </template>
 
 <script>
     import L from 'leaflet';
+
     export default {
         name: "LeafletMap",
-        props: ['restaurants'],
         data: function(){
             return {
                 map: null,
                 tileLayer: null,
+                pinLayer: false
             };
         },
         computed: {
-            layers: function () {
-                return [
-                    {
-                        id: 0,
-                        name: 'Restaurants',
-                        active: false,
-                        features: this.restaurants,
-                    },
-                ];
+            restaurantData: function(){
+                // TODO: return clusteredRestaurants for better UI
+                return this.$store.getters.allRestaurants;
             }
         },
         methods: {
-            updateLocation: function() {
-                if ('geolocation' in navigator){
-                    navigator.geolocation.getCurrentPosition((pos) => {
-                        const coords = pos.coords;
-                        // this.map.flyTo([coords.latitude, coords.longitude], 14);
-                    })
-                }
-            }
+            // updateLocation: function() {
+            //     if ('geolocation' in navigator){
+            //         navigator.geolocation.getCurrentPosition((pos) => {
+            //             const coords = pos.coords;
+            //             // this.map.flyTo([coords.latitude, coords.longitude], 14);
+            //         })
+            //     }
+            // }
         },
         mounted: function () {
             this.map = L.map('map').setView([38.864720, -77.088544], 12);
@@ -45,23 +43,30 @@
                 }
             );
             this.tileLayer.addTo(this.map);
-            this.updateLocation();
+            // this.updateLocation();
             this.map.on('moveend', () => {
-                this.$emit('mapViewChange', {center: this.map.getCenter(), zoom: this.map.getZoom()});
+                this.$store.commit('updateMap', {lat: this.map.getCenter().lat, long: this.map.getCenter().lng});
+                // TODO: update store map dimensions as well.
+                this.$emit('mapMove');
             });
         },
         watch: {
-            layers: function() {
-                this.layers.forEach((layer) => {
-                    layer.features.forEach((feature) => {
-                        feature.leafletObject = L.marker([feature.lat, feature.long])
-                            .bindPopup(feature.name)
-                            .addTo(this.map)
-                            .on('click', (e) => {
-                                console.log('You clicked on', feature);
-                                this.$emit('restaurant-click', feature.id);
-                            });
-                    });
+            restaurantData: function() {
+                console.log("Map watcher detected change in restaurant data");
+                console.log(this);
+                if (this.pinLayer) {
+                    this.pinLayer.clearLayers();
+                }
+                else {
+                    this.pinLayer = L.layerGroup().addTo(this.map);
+                }
+                this.restaurantData.forEach(restaurant => {
+                    this.pinLayer.addLayer(
+                        L.marker([restaurant[0].lat, restaurant[0].long]).on('click', (e) => {
+                            console.log("CLicked on", restaurant);
+                            this.$emit('restaurantClick', restaurant.id);
+                        })
+                    );
                 });
             }
         }
