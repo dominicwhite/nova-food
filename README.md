@@ -38,7 +38,7 @@ The build can be tested on a local server with:
 npm run serve
 ```
 
-##ToDo list
+## ToDo list
 
 **Map features**
 * Better handling of restaurant updates on map move -> Google-like "search this area" option?
