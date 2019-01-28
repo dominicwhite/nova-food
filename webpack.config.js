@@ -6,7 +6,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = env => {
     let apiSetup = (env => {
-        if (env.prod) return 'https://http://novafoodapi.hyperninja.net';
+        if (env.prod) return 'http://novafoodapi.hyperninja.net';
         else return 'http://127.0.0.1:5000';
     })(env);
     console.log(`Backend API is: ${apiSetup}`);
