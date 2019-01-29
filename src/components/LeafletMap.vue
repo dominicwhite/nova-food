@@ -19,8 +19,7 @@
         },
         computed: {
             restaurantData: function(){
-                // TODO: return clusteredRestaurants for better UI
-                return this.$store.getters.allRestaurants;
+                return this.$store.getters.clusteredRestaurants;
             }
         },
         methods: {
@@ -62,10 +61,14 @@
                 }
                 this.restaurantData.forEach(restaurant => {
                     this.pinLayer.addLayer(
-                        L.marker([restaurant[0].lat, restaurant[0].long]).on('click', (e) => {
-                            console.log("CLicked on", restaurant);
+                        L.marker([restaurant[0].lat, restaurant[0].long])
+                        .on('click', (e) => {
+                            console.log("Clicked on", restaurant);
                             this.$emit('restaurantClick', restaurant.id);
                         })
+                        .bindPopup(
+                            restaurant.reduce((acc, val, idx, src) => idx+1 == src.length ? acc + val.name : acc + val.name + '<br>', '')
+                        )
                     );
                 });
             }

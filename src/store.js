@@ -15,25 +15,23 @@ export default new Vuex.Store({
     },
     getters: {
         allRestaurants: (state) => {
-            console.log("Store function allRestaurants with data:", state.restaurants);
             return state.restaurants.map( (r) => [r] )
         },
-        // TODO: uncomment and check implementation:
-        // clusteredRestaurants: (state) => {
-        //     let clusters = [];
-        //     for (const new_restaurant of state.restaurants){
-        //         for (const existing_restaurants of clusters){
-        //             if (Math.abs(new_restaurant.lat - existing_restaurants[0].lat) < 0.00001 &&
-        //                 Math.abs(new_restaurant.long - existing_restaurants[0].long) < 0.00001) {
-        //                 existing_restaurants.push(new_restaurant);
-        //             }
-        //             else {
-        //                 clusters.push(new_restaurant);
-        //             }
-        //         }
-        //     }
-        //     return clusters;
-        // },
+        clusteredRestaurants: (state) => {
+            /* Condense raw restaurants from API to cluster locations with identical lat & long */
+            const condensedRestaurants = [];
+            for (const newRestaurant of state.restaurants){
+                let similarExists = false;
+                for (const addedRestaurantList of condensedRestaurants){
+                    if (newRestaurant.lat === addedRestaurantList[0].lat && newRestaurant.long === addedRestaurantList[0].long) {
+                        addedRestaurantList.push(newRestaurant);
+                        similarExists = true;
+                    }
+                }
+                if (!similarExists) { condensedRestaurants.push([newRestaurant])}
+            }
+            return condensedRestaurants;
+        },
 
         mapSize: (state) =>
             Math.min(Math.abs(state.mapSides.top - state.mapSides.bottom), Math.abs(state.mapSides.left - state.mapSides.right))
