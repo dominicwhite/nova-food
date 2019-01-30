@@ -44,8 +44,11 @@
             this.tileLayer.addTo(this.map);
             // this.updateLocation();
             this.map.on('moveend', () => {
-                this.$store.commit('updateMap', {lat: this.map.getCenter().lat, long: this.map.getCenter().lng});
-                // TODO: update store map dimensions as well.
+                this.$store.commit('updateMap', {
+                    lat: this.map.getCenter().lat,
+                    long: this.map.getCenter().lng,
+                    corners: this.map.getBounds()
+                });
                 this.$emit('mapMove');
             });
         },

@@ -43,17 +43,20 @@ export default new Vuex.Store({
             state.restaurants = payload.restaurants;
         },
         updateMap: (state, payload) => {
-            // TODO: update borders as well
             console.log("Vuex: running updateMap() mutation");
             state.mapCenter.lat = payload.lat;
             state.mapCenter.long = payload.long;
+            state.mapSides.top = payload.corners._northEast.lat;
+            state.mapSides.right = payload.corners._northEast.lng;
+            state.mapSides.bottom = payload.corners._southWest.lat;
+            state.mapSides.left = payload.corners._southWest.lng;
         }
     },
 
     actions: {
-        fetchRestaurants: function({commit, state}, {radius: radius, filter: filter} = {filter:"distance", radius:0.5})
+        fetchRestaurants: function({commit, state, getters}, {radius: radius, filter: filter} = {filter:"distance", radius: 0.5})
         {
-            let restaurants = fetch(`${process.env.apiEndpoint}/restaurants/?filter=${filter}&radius=${radius}&lat=${state.mapCenter.lat}&long=${state.mapCenter.long}`)
+            let restaurants = fetch(`${process.env.apiEndpoint}/restaurants/?filter=${filter}&radius=${getters.mapSize / 2}&lat=${state.mapCenter.lat}&long=${state.mapCenter.long}`)
                 .then(r => r.json())
                 .then(rj => {
                     console.log(rj);
