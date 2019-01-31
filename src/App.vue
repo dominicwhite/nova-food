@@ -84,7 +84,7 @@
         margin: 0;
     }
     #map {
-        height: 85%;
+        height: 100%;
         width: 100%;
     }
 </style>
