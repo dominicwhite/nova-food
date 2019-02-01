@@ -45,6 +45,7 @@ npm run serve
 * Better handling of old locations on map move (should they be removed from map?)
 * Better handling of multiple locations resolving to same coordinates (pins display on top of each other).
 * Display user location.
+* Draw polygon around area with restaurants to highlight 
 
 **Basic app functionality**
 * Display health inspection reviews upon selection of a restaurant
