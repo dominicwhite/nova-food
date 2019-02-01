@@ -1,7 +1,11 @@
 <template>
     <v-bottom-sheet id="bottom-container" v-model="restaurantSheet" hide-overlay>
         <v-list>
-
+            <v-list-tile v-for="restaurant in sheetRestaurants">
+                <v-list-tile-content>
+                    <v-list-tile-title v-text="restaurant.name"></v-list-tile-title>
+                </v-list-tile-content>
+            </v-list-tile>
         </v-list>
     </v-bottom-sheet>
 </template>
@@ -22,6 +26,9 @@
                 set: function() {
                     this.$store.commit('deselectPin');
                 }
+            },
+            sheetRestaurants: function() {
+                return this.$store.state.displayRestaurants;
             }
         }
     }
