@@ -36,7 +36,7 @@
             L.Control.include({
                 _refocusOnMap: L.Util.falseFn // Do nothing.
             });
-            this.map = L.map('map').setView([38.864720, -77.088544], 16);
+            this.map = L.map('map').setView([38.864720, -77.088544], 13);
             this.tileLayer = L.tileLayer(
                 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager/{z}/{x}/{y}.png',
                 {
@@ -57,7 +57,6 @@
         },
         watch: {
             restaurantData: function() {
-                console.log("Map watcher detected change in restaurant data");
                 console.log(this);
                 if (this.pinLayer) {
                     this.pinLayer.clearLayers();
