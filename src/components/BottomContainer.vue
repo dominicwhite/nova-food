@@ -1,22 +1,8 @@
 <template>
-    <v-bottom-sheet id="bottom-container" hide-overlay persistent value="true">
-        <v-expansion-panel>
-            <v-expansion-panel-content
-                    expand-icon="mdi-menu-up"
-            >
-                <div slot="header">Restaurants</div>
-                <v-list>
-                    <v-list-tile
-                            v-for="(restaurant, i) in restaurants"
-                            :key="i"
-                    >
-                        <v-list-tile-content>
-                            <v-list-tile-title v-text="restaurant.name"></v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
-                </v-list>
-            </v-expansion-panel-content>
-        </v-expansion-panel>
+    <v-bottom-sheet id="bottom-container" v-model="restaurantSheet" hide-overlay>
+        <v-list>
+
+        </v-list>
     </v-bottom-sheet>
 </template>
 
@@ -25,15 +11,24 @@
         name: "BottomContainer",
         data: function(){
             return {
-                sheet: true
+                sheet: false
             }
         },
-        props: ['restaurants']
+        computed:{
+            restaurantSheet: {
+                get: function() {
+                    return this.$store.state.isPinSelected;
+                },
+                set: function() {
+                    this.$store.commit('deselectPin');
+                }
+            }
+        }
     }
 </script>
 
 <style scoped>
-.bottom-container {
-    z-index: 1001;
-}
+/*.bottom-container {*/
+    /*z-index: 1001;*/
+/*}*/
 </style>

@@ -12,6 +12,7 @@ export default new Vuex.Store({
         restaurants: [],
         mapCenter: {lat: 38.864720, long: -77.088544},
         mapSides: {top: 38.9, bottom: 38.8, left: -77.1, right: -77.05},
+        isPinSelected: false,
     },
     getters: {
         allRestaurants: (state) => {
@@ -50,6 +51,13 @@ export default new Vuex.Store({
             state.mapSides.right = payload.corners._northEast.lng;
             state.mapSides.bottom = payload.corners._southWest.lat;
             state.mapSides.left = payload.corners._southWest.lng;
+        },
+        selectPin: (state, payload) => {
+            console.log(payload);
+            state.isPinSelected = true;
+        },
+        deselectPin: (state, payload) => {
+            state.isPinSelected = false;
         }
     },
 

@@ -18,7 +18,7 @@
             };
         },
         computed: {
-            restaurantData: function(){
+            restaurantData: function() {
                 return this.$store.getters.clusteredRestaurants;
             }
         },
@@ -36,7 +36,7 @@
             L.Control.include({
                 _refocusOnMap: L.Util.falseFn // Do nothing.
             });
-            this.map = L.map('map').setView([38.864720, -77.088544], 12);
+            this.map = L.map('map').setView([38.864720, -77.088544], 16);
             this.tileLayer = L.tileLayer(
                 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager/{z}/{x}/{y}.png',
                 {
@@ -70,7 +70,8 @@
                         L.marker([restaurant[0].lat, restaurant[0].long])
                         .on('click', (e) => {
                             console.log("Clicked on", restaurant);
-                            this.$emit('restaurantClick', restaurant.id);
+                            this.$store.commit('selectPin', restaurant);
+                            this.$emit('restaurantClick', restaurant);
                         })
                         .bindPopup(
                             restaurant.reduce((acc, val, idx, src) => idx+1 == src.length ? acc + val.name : acc + val.name + '<br>', '')
