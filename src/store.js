@@ -12,6 +12,9 @@ export default new Vuex.Store({
         restaurants: [],
         mapCenter: {lat: 38.864720, long: -77.088544},
         mapSides: {top: 38.9, bottom: 38.8, left: -77.1, right: -77.05},
+        isPinSelected: false,
+        displayRestaurants: [],
+        restaurantInfo: {},
     },
     getters: {
         allRestaurants: (state) => {
@@ -50,19 +53,42 @@ export default new Vuex.Store({
             state.mapSides.right = payload.corners._northEast.lng;
             state.mapSides.bottom = payload.corners._southWest.lat;
             state.mapSides.left = payload.corners._southWest.lng;
+        },
+        selectPin: (state, payload) => {
+            console.log('Committing pin:', payload);
+            state.displayRestaurants = payload;
+            state.isPinSelected = true;
+        },
+        deselectPin: (state, payload) => {
+            state.isPinSelected = false;
+        },
+        updateRestaurantInfo: (state, payload) => {
+            state.restaurantInfo[payload.restaurantID] = payload.restaurantData;
         }
     },
 
     actions: {
-        fetchRestaurants: function({commit, state, getters}, {radius: radius, filter: filter} = {filter:"distance", radius: 0.5})
+        fetchRestaurants: function({commit, state, getters, dispatch}, {radius: radius, filter: filter} = {filter:"distance", radius: 0.5})
         {
             let restaurants = fetch(`${process.env.apiEndpoint}/restaurants/?filter=${filter}&radius=${getters.mapSize / 2}&lat=${state.mapCenter.lat}&long=${state.mapCenter.long}`)
                 .then(r => r.json())
                 .then(rj => {
-                    console.log(rj);
                     commit('updateRestaurants', rj);
-                });
-
+                    return rj;
+                })
+                .then(rj => {
+                        rj.restaurants.forEach((r) => {
+                            dispatch('fetchRestaurantInspections', r.id);
+                        });
+                    }
+                );
+        },
+        fetchRestaurantInspections: function({commit, state}, restaurantID) {
+            if (!(restaurantID in state.restaurantInfo)) {
+                let restaurantData = fetch(`${process.env.apiEndpoint}/restaurants/${restaurantID}/inspections/`)
+                    .then( r => r.json())
+                    .then(rj => commit('updateRestaurantInfo', {restaurantID, restaurantData: rj}))
+            }
         }
     }
 });

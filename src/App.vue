@@ -30,7 +30,7 @@
                 </v-layout>
             </v-container>
         </v-content>
-        <!--<bottom-container :restaurants="restaurantsJSON"></bottom-container>-->
+        <bottom-container></bottom-container>
     </v-app>
 </template>
 

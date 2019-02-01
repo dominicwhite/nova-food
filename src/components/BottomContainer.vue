@@ -1,20 +1,15 @@
 <template>
-    <v-bottom-sheet id="bottom-container" hide-overlay persistent value="true">
+    <v-bottom-sheet id="bottom-container" v-model="restaurantSheet" hide-overlay inset>
         <v-expansion-panel>
-            <v-expansion-panel-content
-                    expand-icon="mdi-menu-up"
-            >
-                <div slot="header">Restaurants</div>
-                <v-list>
-                    <v-list-tile
-                            v-for="(restaurant, i) in restaurants"
-                            :key="i"
-                    >
-                        <v-list-tile-content>
-                            <v-list-tile-title v-text="restaurant.name"></v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
-                </v-list>
+            <v-expansion-panel-content v-for="restaurant in sheetRestaurants">
+                <div slot="header">
+                    {{restaurant.name}}
+                </div>
+                <v-card v-for="inspection in restaurantInspections[restaurant.id]">
+                    <v-card-text><b>{{inspection.month}}.{{inspection.day}}.{{inspection.year}}</b><br>
+                        Code violations: {{inspection.codes}}<br>
+                        Comment: {{inspection.comment}}</v-card-text>
+                </v-card>
             </v-expansion-panel-content>
         </v-expansion-panel>
     </v-bottom-sheet>
@@ -25,15 +20,31 @@
         name: "BottomContainer",
         data: function(){
             return {
-                sheet: true
+                sheet: false
             }
         },
-        props: ['restaurants']
+        computed:{
+            restaurantSheet: {
+                get: function() {
+                    return this.$store.state.isPinSelected;
+                },
+                set: function() {
+                    console.log("Deselecting restaurant pin automatically");
+                    this.$store.commit('deselectPin');
+                }
+            },
+            sheetRestaurants: function() {
+                return this.$store.state.displayRestaurants;
+            },
+            restaurantInspections: function(){
+                return this.$store.state.restaurantInfo;
+            }
+        }
     }
 </script>
 
 <style scoped>
-.bottom-container {
-    z-index: 1001;
-}
+/*.bottom-container {*/
+    /*z-index: 1001;*/
+/*}*/
 </style>
