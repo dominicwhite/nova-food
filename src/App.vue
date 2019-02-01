@@ -24,7 +24,7 @@
                         @click="refreshRestaurants()"
                     >
                         <v-btn flat>
-                            Update restaurants
+                            Tap to update restaurants
                         </v-btn>
                     </v-snackbar>
                 </v-layout>
