@@ -84,7 +84,12 @@
         margin: 0;
     }
     #map {
-        height: 100%;
+        height: calc(100% - 48px);
         width: 100%;
+    }
+    @media screen and (max-width: 679px) {
+        #map {
+            height: calc(100% - 56px);
+        }
     }
 </style>
