@@ -7,8 +7,11 @@
                 </div>
                 <v-card v-for="inspection in restaurantInspections[restaurant.id]">
                     <v-card-text><b>{{inspection.month}}.{{inspection.day}}.{{inspection.year}}</b><br>
-                        Code violations: {{inspection.codes}}<br>
-                        Comment: {{inspection.comment}}</v-card-text>
+                        Code violations:
+                        <template v-if="inspection.codes">{{inspection.codes}}</template>
+                        <template v-else>None</template>
+                        <template v-if="inspection.comment"><br>Comment: {{inspection.comment}}</template>
+                    </v-card-text>
                 </v-card>
             </v-expansion-panel-content>
         </v-expansion-panel>
