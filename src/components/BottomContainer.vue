@@ -1,11 +1,14 @@
 <template>
     <v-bottom-sheet id="bottom-container" v-model="restaurantSheet" hide-overlay inset>
         <v-expansion-panel>
-            <v-expansion-panel-content v-for="restaurant in sheetRestaurants">
+            <v-expansion-panel-content v-for="restaurant in sheetRestaurants" :key="restaurant.id">
                 <div slot="header">
                     {{restaurant.name}}
                 </div>
-                <v-card v-for="inspection in restaurantInspections[restaurant.id]">
+                <v-card
+                        v-for="inspection in restaurantInspections[restaurant.id]"
+                        :key="restaurant.id.toString()+inspection.year.toString()+inspection.month.toString()+inspection.day.toString()"
+                >
                     <v-card-text><b>{{inspection.month}}.{{inspection.day}}.{{inspection.year}}</b><br>
                         Code violations:
                         <template v-if="inspection.codes">{{inspection.codes}}</template>
