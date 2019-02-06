@@ -3,13 +3,13 @@
         <v-toolbar color="indigo" dark fixed app>
             <v-toolbar-title>{{title}}</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-text-field
+            <!--<v-text-field
                     prepend-inner-icon="search"
                     label="Search"
                     solo-inverted
                     class="ml-4 my-2"
                     flat
-            ></v-text-field>
+            ></v-text-field>-->
         </v-toolbar>
         <v-content>
             <v-container fluid>
