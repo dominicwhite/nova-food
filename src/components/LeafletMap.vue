@@ -65,16 +65,26 @@
                     this.pinLayer = L.layerGroup().addTo(this.map);
                 }
                 this.restaurantData.forEach(restaurant => {
+                    let restaurantIcon = L.divIcon({
+                        iconSize: null,
+                        className: null,
+                        html: `<div class="map-marker-wrapper">
+                                   <div class="map-marker-content">${restaurant.length}</div>
+                                   <div class="map-marker-arrow"></div>
+                               </div>`,
+                    });
                     this.pinLayer.addLayer(
-                        L.marker([restaurant[0].lat, restaurant[0].long])
+                        L.marker([restaurant[0].lat, restaurant[0].long], {
+                            icon: restaurantIcon
+                        })
                         .on('click', (e) => {
                             console.log("Clicked on", restaurant);
                             this.$store.commit('selectPin', restaurant);
                             this.$emit('restaurantClick', restaurant);
                         })
-                        .bindPopup(
-                            restaurant.reduce((acc, val, idx, src) => idx+1 == src.length ? acc + val.name : acc + val.name + '<br>', '')
-                        )
+                        // .bindPopup(
+                        //     restaurant.reduce((acc, val, idx, src) => idx+1 == src.length ? acc + val.name : acc + val.name + '<br>', '')
+                        // )
                     );
                 });
             }
@@ -82,8 +92,38 @@
     }
 </script>
 
-<style scoped>
+<style>
     #map {
         z-index: 100;
+    }
+    .map-marker-wrapper {
+        position: absolute;
+        bottom: 0;left: -50%;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+    /*Wrap the content of the divicon (text) in this class*/
+    .map-marker-content {
+        order: 1;
+        position: relative; left: -50%;
+        background-color: #fff;
+        border-radius: 5px;
+        border-width: 2px;
+        border-style: solid;
+        border-color: #444;
+        padding: 3px 5px;
+        white-space: nowrap;
+        font-size: 1.25em;
+        font-weight: bold;
+    }
+    /*Add this arrow*/
+    .map-marker-arrow {
+        order: 2;
+        width: 0px; height: 0px; left: 50%;
+        border-style: solid;
+        border-color: #444 transparent transparent transparent;
+        border-width: 10px 6px 0 6px; /*[first number is height, second/fourth are rigth/left width]*/
+        margin-left: -6px;
     }
 </style>
