@@ -84,12 +84,17 @@
         margin: 0;
     }
     #map {
-        height: calc(100% - 48px);
+        height: calc(100% - 56px);
         width: 100%;
     }
-    @media screen and (max-width: 679px) {
+    @media screen and (min-width: 600px) and (max-width: 960px) {
         #map {
-            height: calc(100% - 56px);
+            height: calc(100% - 48px);
+        }
+    }
+    @media screen and (min-width: 961px) and (max-width: 1264px) {
+        #map {
+            height: calc(100% - 64px);
         }
     }
 </style>
