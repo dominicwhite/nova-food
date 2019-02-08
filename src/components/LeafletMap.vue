@@ -78,13 +78,11 @@
                             icon: restaurantIcon
                         })
                         .on('click', (e) => {
-                            console.log("Clicked on", restaurant);
+                            console.log("Clicked on pin");
+                            this.$store.commit('clickOnPin');
                             this.$store.commit('selectPin', restaurant);
-                            this.$emit('restaurantClick', restaurant);
+                            event.stopPropagation();
                         })
-                        // .bindPopup(
-                        //     restaurant.reduce((acc, val, idx, src) => idx+1 == src.length ? acc + val.name : acc + val.name + '<br>', '')
-                        // )
                     );
                 });
             }

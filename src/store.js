@@ -13,6 +13,7 @@ export default new Vuex.Store({
         mapCenter: {lat: 38.864720, long: -77.088544},
         mapSides: {top: 38.9, bottom: 38.8, left: -77.1, right: -77.05},
         isPinSelected: false,
+        isClickOnAnotherPin: false,
         displayRestaurants: [],
         restaurantInfo: {},
     },
@@ -64,6 +65,14 @@ export default new Vuex.Store({
         },
         updateRestaurantInfo: (state, payload) => {
             state.restaurantInfo[payload.restaurantID] = payload.restaurantData;
+        },
+        clickOffPin: (state) => {
+            console.log("existing pinClick tracker is", state.isClickOnAnotherPin, "setting to false");
+            state.isClickOnAnotherPin  = false;
+        },
+        clickOnPin: (state) => {
+            console.log("existing pinClick tracker is", state.isClickOnAnotherPin, "setting to true");
+            state.isClickOnAnotherPin  = true;
         }
     },
 

@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-toolbar color="indigo" dark fixed app>
+        <v-toolbar color="indigo" dark fixed app @click="appClick()">
             <v-toolbar-title>{{title}}</v-toolbar-title>
             <v-spacer></v-spacer>
             <!--<v-text-field
@@ -12,7 +12,7 @@
             ></v-text-field>-->
         </v-toolbar>
         <v-content>
-            <v-container fluid>
+            <v-container fluid @click="appClick()">
                 <v-layout>
                     <leaflet-map ref="map" v-on:mapMove="refreshRestaurantsSnackbar = true"></leaflet-map>
 
@@ -57,6 +57,10 @@
             this.$store.dispatch('fetchRestaurants');
         },
         methods: {
+            appClick: function(){
+                this.$store.commit('deselectPin');
+                this.$store.commit('clickOffPin');
+            },
             refreshRestaurants: function(){
                 console.log("doing refreshRestaurants() function");
                 this.refreshRestaurantsSnackbar = false;

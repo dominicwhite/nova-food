@@ -1,5 +1,5 @@
 <template>
-    <v-bottom-sheet id="bottom-container" v-model="restaurantSheet" hide-overlay inset>
+    <v-bottom-sheet id="bottom-container" v-model="restaurantSheet" hide-overlay inset persistent>
         <v-expansion-panel>
             <v-expansion-panel-content class="scroll" v-for="restaurant in sheetRestaurants" :key="restaurant.id">
                 <div slot="header">
@@ -36,8 +36,12 @@
                     return this.$store.state.isPinSelected;
                 },
                 set: function() {
-                    console.log("Deselecting restaurant pin automatically");
-                    this.$store.commit('deselectPin');
+                    if (this.$store.state.isClickOnAnotherPin === true){
+                        this.$store.commit('clickOffPin');
+                    }
+                    else {
+                        this.$store.commit('deselectPin');
+                    }
                 }
             },
             sheetRestaurants: function() {
