@@ -1,21 +1,30 @@
-import { mount, createLocalVue } from '@vue/test-utils';
+import Vue from "vue";
+import { mount, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuetify from 'vuetify';
-import VApp from 'vuetify/es5/components/VApp';
+import Vuex from 'vuex';
 
 import App from '../../src/App';
 
 describe('App', () => {
-    let wrapper;
+    let wrapper, store, actions;
     beforeEach(() => {
-        const localVue = createLocalVue();
-        localVue.use(Vuetify);
-        wrapper = mount(App, {
-            localVue: localVue,
+        // const localVue = createLocalVue();
+        Vue.use(Vuetify);
+        Vue.use(Vuex);
+        actions = {
+            fetchRestaurants: jest.fn(),
+        };
+        store = new Vuex.Store({
+            state: {},
+            actions
+        });
+        wrapper = shallowMount(App, {
+            // localVue: localVue,
+            store
         });
     });
 
     test('is a Vue instance', () => {
-        // const wrapper = mount(App);
         expect(wrapper.isVueInstance()).toBeTruthy();
     });
 

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "export NODE_ENV=testing && jest",
-    "test::unit": "export NODE_ENV=testing && jest --watch",
+    "test::unit": "export NODE_ENV=testing && jest tests/*.spec.js --watch",
     "devserver": "webpack-dev-server --env.dev --mode=development",
     "build": "webpack --env.prod --mode=production",
     "serve": "npx http-server dist"
@@ -49,23 +49,16 @@
   },
   "jest": {
     "verbose": true,
-    "moduleDirectories": [
-      "node_modules",
-      "src"
-    ],
+    "collectCoverage": true,
     "moduleFileExtensions": [
       "js",
       "json",
       "vue"
     ],
     "transform": {
-      "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
       ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest",
-      ".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "jest-transform-stub"
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
     },
-    "transformIgnorePatterns": [
-      "<rootDir>/node_modules/(?!(@storybook/.*\\.vue$))"
-    ],
     "setupTestFrameworkScriptFile": "<rootDir>/tests/jest-setup.js"
   },
   "config": {
