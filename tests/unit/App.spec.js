@@ -18,17 +18,20 @@ describe('App', () => {
             state: {},
             actions
         });
-        wrapper = shallowMount(App, {
-            // localVue: localVue,
-            store
+        wrapper = mount(App, {
+            store,
+            stubs: {
+                LeafletMap: '<div></div>',
+                BottomContainer: '<div></div>'
+            }
         });
     });
 
-    test('is a Vue instance', () => {
+    test('App component is a Vue instance', () => {
         expect(wrapper.isVueInstance()).toBeTruthy();
     });
 
-    test('toolbar is rendered', () => {
+    test('App component contains Vuetify navbar', () => {
         expect(wrapper.contains('nav.v-toolbar')).toBeTruthy();
     });
 });
