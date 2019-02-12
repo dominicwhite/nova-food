@@ -34,4 +34,10 @@ describe('App', () => {
     test('App component contains Vuetify navbar', () => {
         expect(wrapper.contains('nav.v-toolbar')).toBeTruthy();
     });
+
+    test('App component snackbar appears when toggled', () => {
+        expect(wrapper.contains('div.v-snack')).toBeFalsy();
+        wrapper.vm.$data.refreshRestaurantsSnackbar = true;
+        expect(wrapper.contains('div.v-snack')).toBeTruthy();
+    })
 });
