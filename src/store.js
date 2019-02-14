@@ -13,6 +13,7 @@ export default new Vuex.Store({
         mapCenter: {lat: 38.864720, long: -77.088544},
         mapSides: {top: 38.9, bottom: 38.8, left: -77.1, right: -77.05},
         isPinSelected: false,
+        selectedPinIndex: null,
         isClickOnAnotherPin: false,
         displayRestaurants: [],
         restaurantInfo: {},
@@ -57,11 +58,13 @@ export default new Vuex.Store({
         },
         selectPin: (state, payload) => {
             console.log('Committing pin:', payload);
-            state.displayRestaurants = payload;
+            state.displayRestaurants = payload.restaurant;
             state.isPinSelected = true;
+            state.selectedPinIndex = payload.idx;
         },
         deselectPin: (state, payload) => {
             state.isPinSelected = false;
+            state.selectedPinIndex = null;
         },
         updateRestaurantInfo: (state, payload) => {
             state.restaurantInfo[payload.restaurantID] = payload.restaurantData;

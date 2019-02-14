@@ -20,6 +20,9 @@
         computed: {
             restaurantData: function() {
                 return this.$store.getters.clusteredRestaurants;
+            },
+            selectedPin: function() {
+                return this.$store.state.selectedPinIndex;
             }
         },
         methods: {
@@ -30,7 +33,41 @@
             //             // this.map.flyTo([coords.latitude, coords.longitude], 14);
             //         })
             //     }
-            // }
+            // },
+            drawRestaurants: function() {
+                const standardIcon = L.icon({
+                        iconUrl: 'blue-pin.png',
+                        iconSize:     [28, 28],
+                        shadowSize:   [50, 64],
+                        iconAnchor:   [14, 28],
+                        shadowAnchor: [4, 62],
+                        popupAnchor:  [-3, -76]
+                    });
+                this.restaurantData.forEach((restaurant, idx) => {
+                    let pinIcon = standardIcon;
+                    if (idx === this.selectedPin) {
+                        pinIcon = L.icon({
+                            iconUrl: 'red-pin.png',
+                            iconSize:     [28, 28],
+                            shadowSize:   [50, 64],
+                            iconAnchor:   [14, 28],
+                            shadowAnchor: [4, 62],
+                            popupAnchor:  [-3, -76]
+                        });
+                    }
+                    this.pinLayer.addLayer(
+                        L.marker([restaurant[0].lat, restaurant[0].long], {
+                            icon: pinIcon
+                        })
+                            .on('click', (e) => {
+                                console.log("Clicked on pin", idx);
+                                this.$store.commit('clickOnPin');
+                                this.$store.commit('selectPin', {restaurant, idx});
+                                event.stopPropagation();
+                            })
+                    );
+                });
+            }
         },
         mounted: function () {
             L.Control.include({
@@ -64,17 +101,10 @@
                 else {
                     this.pinLayer = L.layerGroup().addTo(this.map);
                 }
-                this.restaurantData.forEach(restaurant => {
-                    this.pinLayer.addLayer(
-                        L.marker([restaurant[0].lat, restaurant[0].long], {})
-                        .on('click', (e) => {
-                            console.log("Clicked on pin");
-                            this.$store.commit('clickOnPin');
-                            this.$store.commit('selectPin', restaurant);
-                            event.stopPropagation();
-                        })
-                    );
-                });
+                this.drawRestaurants();
+            },
+            selectedPin: function() {
+                this.drawRestaurants();
             }
         }
     }
