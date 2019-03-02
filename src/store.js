@@ -67,7 +67,19 @@ export default new Vuex.Store({
             state.selectedPinIndex = null;
         },
         updateRestaurantInfo: (state, payload) => {
-            state.restaurantInfo[payload.restaurantID] = payload.restaurantData;
+            let restaurantID = payload[0].restaurant_id;
+            let restaurantInspections = [];
+            for (const inspection of payload){
+                if (inspection.restaurant_id === restaurantID) {
+                    restaurantInspections.push(inspection);
+                }
+                else {
+                    state.restaurantInfo[restaurantID] = restaurantInspections;
+                    restaurantInspections = [inspection];
+                    restaurantID = inspection.restaurant_id;
+                }
+            }
+            state.restaurantInfo[restaurantID] = restaurantInspections;
         },
         clickOffPin: (state) => {
             console.log("existing pinClick tracker is", state.isClickOnAnotherPin, "setting to false");
@@ -88,19 +100,22 @@ export default new Vuex.Store({
                     commit('updateRestaurants', rj);
                     return rj;
                 })
+                .then(rj => rj.restaurants.map(r => r.id))
                 .then(rj => {
-                        rj.restaurants.forEach((r) => {
-                            dispatch('fetchRestaurantInspections', r.id);
-                        });
+                        dispatch('fetchMultipleRestaurantInspections', rj);
                     }
                 );
         },
-        fetchRestaurantInspections: function({commit, state}, restaurantID) {
-            if (!(restaurantID in state.restaurantInfo)) {
-                let restaurantData = fetch(`${process.env.apiEndpoint}/restaurants/${restaurantID}/inspections/`)
-                    .then( r => r.json())
-                    .then(rj => commit('updateRestaurantInfo', {restaurantID, restaurantData: rj}))
-            }
+        fetchMultipleRestaurantInspections: function({commit, state}, restaurantIDList) {
+            let newRestaurants = restaurantIDList.filter(id => !(id in state.restaurantInfo));
+            let queryString = newRestaurants.join(',');
+            let restaurantData = fetch(`${process.env.apiEndpoint}/restaurants/inspections/?restaurants=${queryString}`)
+                .then( r => r.json())
+                .then(rj => {
+                    if (rj.length > 0) {
+                        commit('updateRestaurantInfo', rj);
+                    }
+                })
         }
     }
 });
