@@ -49,7 +49,41 @@ module.exports = env => {
                         loader: 'babel-loader',
 
                     }
-                }
+                },
+                {
+                    test: /\.(jpe?g|png|gif|svg)$/i,
+                    use: [
+                        {
+                            loader: 'file-loader',
+                            options: {
+                                query: {
+                                    name: '[hash].[ext]',
+                                    hash: 'sha512'
+                                }
+                            }
+                        },
+                        {
+                            loader: 'image-webpack-loader',
+                            options: {
+                                query: {
+                                    mozjpeg: {
+                                        progressive: true
+                                    },
+                                    gifsicle: {
+                                        interlaced: false
+                                    },
+                                    optipng: {
+                                        optimizationLevel: 7
+                                    }
+                                }
+                            }
+                        }
+                    ],
+                    // loaders: [
+                    //     'file-loader?hash=sha512&digest=hex&name=[hash].[ext]',
+                    //     'image-webpack-loader?bypassOnDebug&optimizationLevel=7&interlaced=false'
+                    // ]
+                },
             ]
         }
     };

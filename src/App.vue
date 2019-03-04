@@ -50,11 +50,8 @@
             'leaflet-map': LeafletMap,
             'bottom-container': BottomContainer
         },
-        computed: {
-            // ...mapGetters(['allRestaurants'])
-        },
         mounted() {
-            this.$store.dispatch('fetchRestaurants');
+            this.$store.dispatch('fetchRestaurants', {filter: 'recent'});
         },
         methods: {
             appClick: function(){
@@ -62,12 +59,10 @@
                 this.$store.commit('clickOffPin');
             },
             refreshRestaurants: function(){
-                console.log("doing refreshRestaurants() function");
                 this.refreshRestaurantsSnackbar = false;
-                this.$store.dispatch('fetchRestaurants');
+                this.$store.dispatch('fetchRestaurants', {filter: this.$store.state.searchBy});
             },
             handleMapMove(){
-                console.log("starting handleMapChange handler function");
                 this.refreshRestaurantsSnackbar = true;
             }
         }
@@ -87,17 +82,17 @@
         width: 100%;
         margin: 0;
     }
-    #map {
+    .vue2leaflet-map {
         height: calc(100% - 56px);
         width: 100%;
     }
     @media screen and (min-width: 600px) and (max-width: 960px) {
-        #map {
+        .vue2leaflet-map {
             height: calc(100% - 48px);
         }
     }
     @media screen and (min-width: 961px) and (max-width: 1264px) {
-        #map {
+        .vue2leaflet-map {
             height: calc(100% - 64px);
         }
     }

@@ -12,11 +12,13 @@ export default new Vuex.Store({
         restaurants: [],
         mapCenter: {lat: 38.864720, long: -77.088544},
         mapSides: {top: 38.9, bottom: 38.8, left: -77.1, right: -77.05},
+        mapZoom: 13,
         isPinSelected: false,
         selectedPinIndex: null,
         isClickOnAnotherPin: false,
         displayRestaurants: [],
         restaurantInfo: {},
+        searchBy: "distance"
     },
     getters: {
         allRestaurants: (state) => {
@@ -44,20 +46,22 @@ export default new Vuex.Store({
 
     mutations: {
         updateRestaurants: (state, payload) => {
-            console.log("Vuex: running updateRestaurants() mutation with", payload);
             state.restaurants = payload.restaurants;
         },
-        updateMap: (state, payload) => {
-            console.log("Vuex: running updateMap() mutation");
+        updateMapCenter: (state, payload) => {
             state.mapCenter.lat = payload.lat;
             state.mapCenter.long = payload.long;
+        },
+        updateMapEdges: (state, payload) => {
             state.mapSides.top = payload.corners._northEast.lat;
             state.mapSides.right = payload.corners._northEast.lng;
             state.mapSides.bottom = payload.corners._southWest.lat;
             state.mapSides.left = payload.corners._southWest.lng;
         },
+        updateMapZoom: (state, payload) => {
+            state.mapZoom = payload.zoom;
+        },
         selectPin: (state, payload) => {
-            console.log('Committing pin:', payload);
             state.displayRestaurants = payload.restaurant;
             state.isPinSelected = true;
             state.selectedPinIndex = payload.idx;
@@ -82,19 +86,20 @@ export default new Vuex.Store({
             state.restaurantInfo[restaurantID] = restaurantInspections;
         },
         clickOffPin: (state) => {
-            console.log("existing pinClick tracker is", state.isClickOnAnotherPin, "setting to false");
             state.isClickOnAnotherPin  = false;
         },
         clickOnPin: (state) => {
-            console.log("existing pinClick tracker is", state.isClickOnAnotherPin, "setting to true");
             state.isClickOnAnotherPin  = true;
+        },
+        updateSearchBy: (state, payload) => {
+            state.searchBy = payload;
         }
     },
 
     actions: {
         fetchRestaurants: function({commit, state, getters, dispatch}, {radius: radius, filter: filter} = {filter:"distance", radius: 0.5})
         {
-            let restaurants = fetch(`${process.env.apiEndpoint}/restaurants/?filter=${filter}&radius=${getters.mapSize / 2}&lat=${state.mapCenter.lat}&long=${state.mapCenter.long}`)
+            let restaurants = fetch(`${process.env.apiEndpoint}/restaurants/?filter_by=${filter}&radius=${getters.mapSize / 2}&lat=${state.mapCenter.lat}&long=${state.mapCenter.long}`)
                 .then(r => r.json())
                 .then(rj => {
                     commit('updateRestaurants', rj);
