@@ -175,7 +175,7 @@
         },
         mounted: function () {
             this.$nextTick(() => {
-                this.map = this.$refs.map.mapObject // work as expected
+                this.map = this.$refs.map.mapObject;
             });
         },
         watch: {
@@ -185,7 +185,6 @@
                 }
                 else {
                     this.userLocation = null;
-                    // this.$emit('show-location-warning');
                 }
             }
         }
