@@ -5,18 +5,26 @@
                 <div slot="header">
                     {{restaurant.name}}
                 </div>
-=                <v-card
-                        v-for="inspection in restaurantInspections[restaurant.id]"
-                        :key="restaurant.id.toString()+inspection.year.toString()+inspection.month.toString()+inspection.day.toString()"
-                >
+                <v-list three-line>
+                    <template
+                            v-for="inspection in restaurantInspections[restaurant.id]"
+                    >
 
-                    <v-card-text><b>Inspected on: {{inspection.month}}.{{inspection.day}}.{{inspection.year}}</b><br>
-                        <i>Code violations:</i>
-                        <template v-if="inspection.codes">{{inspection.codes}}</template>
-                        <template v-else>None</template>
-                        <template v-if="inspection.comment"><br><i>Comment:</i> {{inspection.comment}}</template>
-                    </v-card-text>
-                </v-card>
+                        <v-list-tile>
+                            <v-list-tile-content>
+                                <v-list-tile-title>Inspected on: {{inspection.month}}.{{inspection.day}}.{{inspection.year}}</v-list-tile-title>
+                                <v-list-tile-sub-title>
+                                    <i>Code violations:</i>
+                                    <template v-if="inspection.codes">{{inspection.codes}}</template>
+                                    <template v-else>None</template>
+                                    <template v-if="inspection.comment"><br><i>Comment:</i> {{inspection.comment}}</template>
+                                </v-list-tile-sub-title>
+                            </v-list-tile-content>
+
+                        </v-list-tile>
+                    </template>
+                </v-list>
+
             </v-expansion-panel-content>
         </v-expansion-panel>
     </v-bottom-sheet>
