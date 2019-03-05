@@ -41,8 +41,8 @@
 
         </l-marker>
         <l-control class="custom-control-container" position="bottomleft">
-            <div>Search by:</div>
-            <v-radio-group v-model="searchBy">
+            <div class="body-2 font-weight-bold mb-0">Search by:</div>
+            <v-radio-group v-model="searchBy" class="my-1">
                 <v-radio
                     v-for="n in 2"
                     :key="n"
@@ -50,7 +50,7 @@
                     :value="searchRadio[n-1].value"
                 ></v-radio>
             </v-radio-group>
-            <div>Show my location</div>
+            <div class="body-2 font-weight-bold ma-1">Show my location:</div>
             <div style="display: inline-block;">
                 <v-switch
                         height="4"
