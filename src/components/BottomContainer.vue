@@ -3,27 +3,32 @@
         <v-expansion-panel>
             <v-expansion-panel-content class="scroll" v-for="restaurant in sheetRestaurants" :key="restaurant.id">
                 <div slot="header">
-                    {{restaurant.name}}
+                    <span class="subheading">{{restaurant.name}}</span>
                 </div>
-                <v-list three-line>
-                    <template
+
+                    <v-card
                             v-for="inspection in restaurantInspections[restaurant.id]"
+                            class="px-4"
                     >
-
-                        <v-list-tile>
-                            <v-list-tile-content>
-                                <v-list-tile-title>Inspected on: {{inspection.month}}.{{inspection.day}}.{{inspection.year}}</v-list-tile-title>
-                                <v-list-tile-sub-title>
-                                    <i>Code violations:</i>
-                                    <template v-if="inspection.codes">{{inspection.codes}}</template>
-                                    <template v-else>None</template>
-                                    <template v-if="inspection.comment"><br><i>Comment:</i> {{inspection.comment}}</template>
-                                </v-list-tile-sub-title>
-                            </v-list-tile-content>
-
-                        </v-list-tile>
-                    </template>
-                </v-list>
+                        <v-card-title class="pa-1"
+                                      style="border-top: thin lightgray solid;"
+                        >
+                            <span class="body-2">Inspected on: {{inspection.month}}.{{inspection.day}}.{{inspection.year}}</span>
+                        </v-card-title>
+                        <v-card-text class="py-1">
+                            <i>Code violations:</i>
+                            <template v-if="inspection.codes">
+                                <v-chip
+                                        v-for="code in inspection.codes.split(';')"
+                                        class="pa-0 ma-0 mr-1"
+                                >
+                                    {{code}}
+                                </v-chip>
+                            </template>
+                            <template v-else>None</template>
+                            <template v-if="inspection.comment"><br><i>Comment:</i> {{inspection.comment}}</template>
+                        </v-card-text>
+                    </v-card>
 
             </v-expansion-panel-content>
         </v-expansion-panel>
