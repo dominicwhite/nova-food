@@ -10,11 +10,11 @@
                         :key="restaurant.id.toString()+inspection.year.toString()+inspection.month.toString()+inspection.day.toString()"
                 >
 
-                    <v-card-text><b>{{inspection.month}}.{{inspection.day}}.{{inspection.year}}</b><br>
-                        Code violations:
+                    <v-card-text><b>Inspected on: {{inspection.month}}.{{inspection.day}}.{{inspection.year}}</b><br>
+                        <i>Code violations:</i>
                         <template v-if="inspection.codes">{{inspection.codes}}</template>
                         <template v-else>None</template>
-                        <template v-if="inspection.comment"><br>Comment: {{inspection.comment}}</template>
+                        <template v-if="inspection.comment"><br><i>Comment:</i> {{inspection.comment}}</template>
                     </v-card-text>
                 </v-card>
             </v-expansion-panel-content>
