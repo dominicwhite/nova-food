@@ -14,7 +14,11 @@
         <v-content>
             <v-container fluid @click="appClick()">
                 <v-layout>
-                    <leaflet-map ref="map" v-on:mapMove="refreshRestaurantsSnackbar = true"></leaflet-map>
+                    <leaflet-map
+                            ref="map"
+                            v-on:mapMove="refreshRestaurantsSnackbar = true"
+                            v-on:show-info="showAboutDialog = true"
+                    ></leaflet-map>
 
                     <v-snackbar
                         v-model="refreshRestaurantsSnackbar"
@@ -31,6 +35,22 @@
             </v-container>
         </v-content>
         <bottom-container></bottom-container>
+        <v-dialog v-model="showAboutDialog">
+            <v-card>
+                <v-card-title primary-title>
+                    <div>
+                        <h2 class="headline display-2">About</h2>
+                        <div>
+                            <p>Built by Dominic White and Matt Gallagher as a Code for NoVa project.</p>
+                            <p>Contact: dewhite4+cfnova@gmail.com.</p>
+                        </div>
+                    </div>
+                </v-card-title>
+                <v-card-actions>
+                    <v-btn flat color="orange" @click="showAboutDialog = false">Close</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-app>
 </template>
 
@@ -43,7 +63,8 @@
         data: function(){
             return {
                 title: 'NoVaEats',
-                refreshRestaurantsSnackbar: false
+                refreshRestaurantsSnackbar: false,
+                showAboutDialog: false
             }
         },
         components: {

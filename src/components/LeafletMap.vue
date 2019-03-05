@@ -53,8 +53,12 @@
             <div>Show my location</div>
             <div style="display: inline-block;">
                 <v-switch
+                        height="4"
                         v-model="showLocation"
                 ></v-switch>
+            </div>
+            <div>
+                <v-btn color="info" @click="$emit('show-info')">About</v-btn>
             </div>
 
         </l-control>
