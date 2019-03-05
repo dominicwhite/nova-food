@@ -18,6 +18,7 @@
                             ref="map"
                             v-on:mapMove="refreshRestaurantsSnackbar = true"
                             v-on:show-info="showAboutDialog = true"
+                            v-on:show-location-warning="showLocationUnavailableDialog = true"
                     ></leaflet-map>
 
                     <v-snackbar
@@ -35,6 +36,7 @@
             </v-container>
         </v-content>
         <bottom-container></bottom-container>
+
         <v-dialog v-model="showAboutDialog">
             <v-card>
                 <v-card-title primary-title>
@@ -51,6 +53,22 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+
+        <v-dialog v-model="showLocationUnavailableDialog">
+            <v-card>
+                <v-card-title primary-title>
+                    <div>
+                        <h2 class="headline display-2 mb-2">Location available</h2>
+                        <div>
+                            <p>We weren't able to determine your location. :(</p>
+                        </div>
+                    </div>
+                </v-card-title>
+                <v-card-actions>
+                    <v-btn flat color="orange" @click="showLocationUnavailableDialog = false">OK</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-app>
 </template>
 
@@ -64,7 +82,8 @@
             return {
                 title: 'NoVaEats',
                 refreshRestaurantsSnackbar: false,
-                showAboutDialog: false
+                showAboutDialog: false,
+                showLocationUnavailableDialog: false,
             }
         },
         components: {

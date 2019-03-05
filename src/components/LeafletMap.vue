@@ -153,17 +153,25 @@
             },
             turnOnLocation(flyTo=false) {
                 if ('geolocation' in navigator){
-                    navigator.geolocation.getCurrentPosition((pos) => {
-                        this.showLocation = true;
-                        this.userLocation = [pos.coords.latitude, pos.coords.longitude];
-                        if (flyTo) this.map.flyTo([pos.coords.latitude, pos.coords.longitude], 15);
-                    });
+                    navigator.geolocation.getCurrentPosition(
+                        (pos) => {
+                            this.showLocation = true;
+                            this.userLocation = [pos.coords.latitude, pos.coords.longitude];
+                            if (flyTo) this.map.flyTo([pos.coords.latitude, pos.coords.longitude], 15);
+                        },
+                        (err) => {
+                            this.showLocation = false;
+                            this.userLocation = false;
+                            this.$emit('show-location-warning');
+                        }
+                    );
                 }
                 else {
                     this.showLocation = false;
                     this.userLocation = false;
+                    this.$emit('show-location-warning');
                 }
-            }
+            },
         },
         mounted: function () {
             this.$nextTick(() => {
@@ -177,6 +185,7 @@
                 }
                 else {
                     this.userLocation = null;
+                    // this.$emit('show-location-warning');
                 }
             }
         }
