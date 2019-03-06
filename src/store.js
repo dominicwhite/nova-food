@@ -18,7 +18,7 @@ export default new Vuex.Store({
         isClickOnAnotherPin: false,
         displayRestaurants: [],
         restaurantInfo: {},
-        searchBy: "distance"
+        searchBy: "recent"
     },
     getters: {
         allRestaurants: (state) => {
@@ -97,8 +97,15 @@ export default new Vuex.Store({
     },
 
     actions: {
-        fetchRestaurants: function({commit, state, getters, dispatch}, {radius: radius, filter: filter} = {filter:"distance", radius: 0.5})
+        fetchRestaurants: function({commit, state, getters, dispatch}, options)
         {
+            if (options.filter){
+                var filter = options.filter;
+            }
+            else{
+                filter = state.searchBy;
+            }
+            let radius = getters.mapSize;
             let restaurants = fetch(`${process.env.apiEndpoint}/restaurants/?filter_by=${filter}&radius=${getters.mapSize / 2}&lat=${state.mapCenter.lat}&long=${state.mapCenter.long}`)
                 .then(r => r.json())
                 .then(rj => {

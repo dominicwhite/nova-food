@@ -123,6 +123,7 @@
                 },
                 set: function (newValue) {
                     this.$store.commit('updateSearchBy', newValue);
+                    this.$store.dispatch('fetchRestaurants', {});
                 }
             }
         },
