@@ -7,8 +7,9 @@
                 </div>
 
                     <v-card
-                            v-for="inspection in restaurantInspections[restaurant.id]"
+                            v-for="(inspection, inspection_index) in restaurantInspections[restaurant.id]"
                             class="px-4"
+                            :key="restaurant.id + '-' + inspection_index"
                     >
                         <v-card-title class="pa-1"
                                       style="border-top: thin lightgray solid;"

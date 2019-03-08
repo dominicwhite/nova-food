@@ -25,6 +25,7 @@
                 v-for="(restaurant, idx) in restaurantData"
                 :lat-lng="[restaurant[0].lat, restaurant[0].long]"
                 @click="selectMarker(restaurant, idx)"
+                :key="restaurant.id"
         >
             <l-icon
                 v-if="selectedPin===idx"
