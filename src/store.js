@@ -4,6 +4,8 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 Vue.config.devtools = true;
 
+import violations from './violations.js';
+
 const debug = process.env.NODE_ENV !== 'production';
 
 export default new Vuex.Store({
@@ -18,7 +20,8 @@ export default new Vuex.Store({
         isClickOnAnotherPin: false,
         displayRestaurants: [],
         restaurantInfo: {},
-        searchBy: "recent"
+        searchBy: "recent",
+        violations: violations
     },
     getters: {
         allRestaurants: (state) => {
