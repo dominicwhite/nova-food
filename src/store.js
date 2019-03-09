@@ -4,8 +4,8 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 Vue.config.devtools = true;
 
-import violations from './violations.js';
-import boundaryCoords from './boundaries.js';
+import violations from './data/violations.js';
+import boundaryCoords from './data/boundaries.js';
 
 const debug = process.env.NODE_ENV !== 'production';
 
