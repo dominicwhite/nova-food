@@ -5,6 +5,7 @@ Vue.use(Vuex);
 Vue.config.devtools = true;
 
 import violations from './violations.js';
+import boundaryCoords from './boundaries.js';
 
 const debug = process.env.NODE_ENV !== 'production';
 
@@ -21,11 +22,15 @@ export default new Vuex.Store({
         displayRestaurants: [],
         restaurantInfo: {},
         searchBy: "recent",
-        violations: violations
+        violations: violations,
+        boundaries: boundaryCoords
     },
     getters: {
         allRestaurants: (state) => {
             return state.restaurants.map( (r) => [r] )
+        },
+        cities: (state) => {
+            return state.boundaries.keys();
         },
         clusteredRestaurants: (state) => {
             /* Condense raw restaurants from API to cluster locations with identical lat & long */

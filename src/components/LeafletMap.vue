@@ -178,6 +178,17 @@
         mounted: function () {
             this.$nextTick(() => {
                 this.map = this.$refs.map.mapObject;
+                const globe = [
+                    L.latLng([90, 180]),
+                    L.latLng([90, -180]),
+                    L.latLng([-90, -180]),
+                    L.latLng([-90, 180])
+                ];
+                const latlngs = this.$store.state.boundaries['Arlington'].map((longLat) => [longLat[1], longLat[0]]);
+                console.log(latlngs[0]);
+                const polygon = L.polygon([globe, latlngs]).addTo(this.map);
+                // zoom the map to the polygon
+                // this.map.fitBounds(L.polygon([[38.864720, -77.088544],[38.9, -77.1],[38.83, -77.05]]).getBounds());
             });
         },
         watch: {
