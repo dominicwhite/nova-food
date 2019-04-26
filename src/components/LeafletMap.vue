@@ -6,7 +6,7 @@
         @update:zoom="zoomUpdated"
         @update:center="centerUpdated"
         @update:bounds="boundsUpdated"
-        :options="{zoomControl: false, attributionControl: false}"
+        :options="{zoomControl: false, attributionControl: false, preferCanvas: true}"
     >
 
         <l-control-attribution
@@ -91,6 +91,8 @@
                 userLocation: false,
                 userIcon: L.divIcon({className:"", iconSize:null, html: '<div id="user-icon"></div>'}),
                 searchRadio: [{label: 'Distance', value: 'distance'}, {label: 'Recent', value: "recent"}],
+                map: false,
+                falsey: false
             };
         },
         computed: {
@@ -185,7 +187,6 @@
                     L.latLng([-90, 180])
                 ];
                 const latlngs = this.$store.state.boundaries['Arlington'].map((longLat) => [longLat[1], longLat[0]]);
-                console.log(latlngs[0]);
                 const polygon = L.polygon([globe, latlngs]).addTo(this.map);
                 // zoom the map to the polygon
                 // this.map.fitBounds(L.polygon([[38.864720, -77.088544],[38.9, -77.1],[38.83, -77.05]]).getBounds());
