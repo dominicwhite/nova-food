@@ -48,13 +48,28 @@ npm run serve
 ## ToDo list
 
 **Basic app functionality**
-* Draw polygon around area with restaurants to highlight available region
+* Draw outline of components and interactions -> clarify and refactor interface of each, esp. store
+* Fully test the front end
 * Display measure of "goodness" of a restaurant based upon its recent inspections
     * Calculate said "goodness" -> # of violations? Severity? Historical probability of restaurant closure vs inspections prior to closure?
+* Get data from other local regions
+    * "Cities" control option that lets you select the city.
+    * Importers that pull from municipality sources
+    * Geocode any new restaurants -> Google Maps for max accuracy? Does this lead to less overlap?
+    * Deploy as a series of lambda scripts that run once per month -> output file to S3, and Flask setup uses this
+* Minimize size of JavaScript production file
+* Better handling of clusters of restaurants
+    * E.g. Show popup tooltip when hovering over marker -> preliminary list of restaurants so don't have to click
+* Collapse Map options control container to expansion icon
 
 **"Distant future" wishlist**
 * Add more regions
 * PWA
+    * Service worker
     * Cache restaurant API data.
     * Cache map tiles?
-* Search
+    * Library to sync indexed db with REST api?
+* Search functionality.
+* Display restaurant name next to marker (if space exists on map).
+* Link to third party APIs? Reviews? Opentable? Yelp?
+* Google analytics
