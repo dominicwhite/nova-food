@@ -1,7 +1,7 @@
 # nova-food
 
 Restaurant health inspections for Arlington County.
-Developed by Dominic White and Matthew Gallagher at Code for NoVa.
+Developed by Dominic White and Matthew Gallagher at [Code for NoVa](https://www.meetup.com/Code-for-NoVA/).
 
 ---
 
