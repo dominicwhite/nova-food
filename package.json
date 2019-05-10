@@ -56,7 +56,6 @@
     "collectCoverage": true,
     "moduleFileExtensions": [
       "js",
-      "json",
       "vue"
     ],
     "moduleNameMapper": {
