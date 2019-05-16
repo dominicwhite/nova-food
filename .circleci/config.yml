@@ -35,6 +35,12 @@ jobs: # a collection of steps
           path: reports/junit
       - store_artifacts:
           path: reports/junit
+      - run:
+          command: |
+            git checkout master
+            git merge dev
+            git push
+
 #      - store_artifacts: # special step to save test results as as artifact
 #          # Upload test summary for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
 #          path: test-results.xml
