@@ -33,14 +33,14 @@ commands:
 jobs: # a collection of steps
   feature_test:
     working_directory: ~/repo # directory where steps will run
-      branches:
-        ignore:
-          - master
-          - dev
-      docker: # run the steps with Docker
-        - image: circleci/node:9.9 # ...with this image as the primary container; this is where all `steps` will run
-      steps:
-        - build_and_test
+    branches:
+      ignore:
+        - master
+        - dev
+    docker: # run the steps with Docker
+      - image: circleci/node:9.9 # ...with this image as the primary container; this is where all `steps` will run
+    steps:
+      - build_and_test
   build: # runs not using Workflows must have a `build` job as entry point
     working_directory: ~/repo # directory where steps will run
     branches:
