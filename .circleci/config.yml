@@ -1,12 +1,7 @@
 version: 2 # use CircleCI 2.0
-jobs: # a collection of steps
-  build: # runs not using Workflows must have a `build` job as entry point
-    working_directory: ~/repo # directory where steps will run
-    branches:
-      only:
-        - dev
-    docker: # run the steps with Docker
-      - image: circleci/node:9.9 # ...with this image as the primary container; this is where all `steps` will run
+commands:
+  build_and_test:
+    description: "Shared build steps"
     steps: # a collection of executable commands
       - checkout # special step to check out source code to working directory
       - run:
@@ -35,6 +30,26 @@ jobs: # a collection of steps
           path: reports/junit
       - store_artifacts:
           path: reports/junit
+jobs: # a collection of steps
+  feature_test:
+    working_directory: ~/repo # directory where steps will run
+      branches:
+        ignore:
+          - master
+          - dev
+      docker: # run the steps with Docker
+        - image: circleci/node:9.9 # ...with this image as the primary container; this is where all `steps` will run
+      steps:
+        - build_and_test
+  build: # runs not using Workflows must have a `build` job as entry point
+    working_directory: ~/repo # directory where steps will run
+    branches:
+      only:
+        - dev
+    docker: # run the steps with Docker
+      - image: circleci/node:9.9 # ...with this image as the primary container; this is where all `steps` will run
+    steps:
+      - build_and_test
       - run:
           command: |
             git checkout master
