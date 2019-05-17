@@ -33,10 +33,10 @@ commands:
 jobs: # a collection of steps
   feature_test:
     working_directory: ~/repo # directory where steps will run
-#    branches:
-#      ignore:
-#        - master
-#        - dev
+    branches:
+      ignore:
+        - master
+        - dev
     docker: # run the steps with Docker
       - image: circleci/node:9.9 # ...with this image as the primary container; this is where all `steps` will run
     steps:
@@ -55,3 +55,9 @@ jobs: # a collection of steps
             git checkout master
             git merge dev
             git push
+workflows:
+  all:
+    jobs:
+      - feature_test
+      - build
+
