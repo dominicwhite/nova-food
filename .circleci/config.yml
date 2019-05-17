@@ -59,6 +59,15 @@ workflows:
   version: 2
   all:
     jobs:
-      - feature_test
-      - build
+      - feature_test:
+          filters:
+            branches:
+              ignore:
+                - master
+                - dev
+      - build:
+          filters:
+            branches:
+              only:
+                - dev
 
