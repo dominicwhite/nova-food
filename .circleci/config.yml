@@ -1,4 +1,4 @@
-version: 2# use CircleCI 2.0
+version: 2.1
 commands:
   build_and_test:
     description: "Shared build steps"
@@ -33,28 +33,28 @@ commands:
 jobs: # a collection of steps
   feature_test:
     working_directory: ~/repo # directory where steps will run
-    branches:
-      ignore:
-        - master
-        - dev
+#    branches:
+#      ignore:
+#        - master
+#        - dev
     docker: # run the steps with Docker
       - image: circleci/node:9.9 # ...with this image as the primary container; this is where all `steps` will run
     steps:
       - build_and_test
   build: # runs not using Workflows must have a `build` job as entry point
     working_directory: ~/repo # directory where steps will run
-    branches:
-      only:
-        - dev
+#    branches:
+#      only:
+#        - dev
     docker: # run the steps with Docker
       - image: circleci/node:9.9 # ...with this image as the primary container; this is where all `steps` will run
     steps:
       - build_and_test
-      - run:
-          command: |
-            git checkout master
-            git merge dev
-            git push
+#      - run:
+#          command: |
+#            git checkout master
+#            git merge dev
+#            git push
 workflows:
   version: 2
   all:
