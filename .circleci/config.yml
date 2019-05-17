@@ -1,4 +1,5 @@
-version: 2 # use CircleCI 2.0
+version: 2# use CircleCI 2.0
+2
 commands:
   build_and_test:
     description: "Shared build steps"
